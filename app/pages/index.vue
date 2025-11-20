@@ -90,9 +90,9 @@ const tabs = [
 
             <template v-slot:item="{ item }">
                 <v-tabs-window-item :value="item.value">
-                    <v-row class="space-x-2">
+                    <v-row class="space-x-2 mt-4">
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/10 rounded-lg">
-                            <projects-task-header />
+                            <projects-task-header/>
                             <projects-task-card />
                             <projects-task-card />
                             <projects-task-card />
