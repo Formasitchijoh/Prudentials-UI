@@ -47,6 +47,9 @@ const tabs = [
 
 const drawer = ref(false)
 
+const setDrawerOpener = () => {
+    drawer.value = true
+}
   const group = ref(null)
 
   watch(group, () => {
@@ -74,19 +77,19 @@ const drawer = ref(false)
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Todo" :count="5" /> 
                             <template v-if="tasks.length > 0"   v-for="(task, i) in tasks" :key="i" :value="item" >
-                            <projects-task-card :task="task" />
+                            <projects-task-card :task="task" @open-drawer="setDrawerOpener" />
                             </template>
                         </v-col>
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Triage" :count="10" />
                             <template   v-for="(task, i) in tasks" :key="i" :value="item" >
-                            <projects-task-card :task="task"/>
+                            <projects-task-card :task="task" @open-drawer="setDrawerOpener"/>
                             </template>
                         </v-col>
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Progress" :count="12" />
                             <template   v-for="(task, i) in tasks" :key="i" :value="item" >
-                            <projects-task-card :task="task"/>
+                            <projects-task-card :task="task" @open-drawer="setDrawerOpener"/>
                             </template>
 
                         </v-col>
