@@ -1,5 +1,6 @@
 import type { UseFetchOptions } from 'nuxt/app'
 import { useRequestHeaders } from "nuxt/app";
+import { useCookie } from '#app'; // Import useCookie correctly in Nuxt context
 
 
 const headers = () => {
@@ -14,6 +15,11 @@ const headers = () => {
   if (token.value) {
     headers['X-XSRF-TOKEN'] = token.value as string;
   }
+  // 2. Handle Bearer Token (e.g., if you store it in a 'access_token' cookie)
+  const accessToken = useCookie('access_token'); // <-- Change 'access_token' to your actual cookie name
+  if (accessToken.value) {
+    headers['Authorization'] = `Bearer ${accessToken.value}`;
+  }
 
   if (process.server) {
     headers = {
@@ -27,7 +33,7 @@ const headers = () => {
 export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}, maxRetries: number = 1) {
 
   const config = useRuntimeConfig()
-const apiUrl = config.public.API_URL || 'http://127.0.0.1:8000'
+  const apiUrl = config.public.API_URL || 'http://127.0.0.1:8000'
 
   const fetchWithRetry = async (retryCount: number): Promise<any> => {
     try {
@@ -55,11 +61,11 @@ const apiUrl = config.public.API_URL || 'http://127.0.0.1:8000'
           ...headers(),
           ...options?.headers,
         },
-        signal: options.signal, 
+        signal: options.signal,
 
         onResponseError: async ({ response }) => {
           // Intercept the response error
-          if (response.status === 419) { // Check if the response status is 419 (CSRF mismatch)
+          if (response.status === 419) {
             if (retryCount < maxRetries) {
               return fetchWithRetry(retryCount + 1);
             }
