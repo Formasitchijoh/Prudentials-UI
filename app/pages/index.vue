@@ -59,7 +59,7 @@ const setDrawerOpener = () => {
 </script>
 
 <template>
-    <VLayout fluid class="fill-height pl-10 d-flex flex-column text-start">
+    <VLayout fluid class="pl-10 d-flex flex-column text-start">
         <div class="w-100"> 
             <div class="text-h4">Tasks</div>
             <div class="text-subtitle-1">Some text about the text will be placed here </div>
@@ -72,7 +72,7 @@ const setDrawerOpener = () => {
             </template>
 
             <template v-slot:item="{ item }">
-                <v-tabs-window-item width="100%" class="mx-10" :value="item.value">
+                <v-tabs-window-item width="100%"  class="mx-10" :value="item.value">
                     <v-row class="space-x-2 mt-4">
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Todo" :count="5" /> 

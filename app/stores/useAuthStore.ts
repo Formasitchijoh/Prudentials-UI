@@ -3,6 +3,7 @@ import { useRouter } from "nuxt/app";
 import { useCookie } from '#app';
 
 type User = {
+    id:number | null,
     name: string;
     email: string;
     password: string;
@@ -25,6 +26,7 @@ interface State {
 export const useAuthStore = defineStore('auth', {
     state: (): State => ({
         user: {
+            id: null,
             name: "",
             email: "",
             password: "",

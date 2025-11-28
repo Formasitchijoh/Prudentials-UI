@@ -34,3 +34,13 @@ export type TaskItem = {
     actual_hours: number | null;
     id: number;
 };
+
+
+export type Document = {
+    name:string,
+    user_id:string,
+    documentable_id:number,
+    documentable_type:string,
+    tenant_id:number,
+    document_file:File | null
+}
