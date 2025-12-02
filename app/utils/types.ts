@@ -44,3 +44,11 @@ export type Document = {
     tenant_id:number,
     document_file:File | null
 }
+
+export type Comment = {
+    tenant_id:number,
+    body:String,
+    commentable_id: number,
+    commentable_type: String,
+    user_id:number | null
+}

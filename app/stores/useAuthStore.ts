@@ -65,7 +65,7 @@ export const useAuthStore = defineStore('auth', {
 
         async register(info: RegistrationInfo) {
             this.message = ""
-            await useApiFetch("/sanctum/csrf-cookie");
+            // await useApiFetch("/sanctum/csrf-cookie");
 
             const { data, status } = await useApiFetch("/api/register", {
                 method: "POST",
@@ -86,7 +86,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(info: Partial<RegistrationInfo>) {
             this.message = ""
-            await useApiFetch("/sanctum/csrf-cookie");
+            // await useApiFetch("/sanctum/csrf-cookie");
 
             const { data, status } = await useApiFetch("/api/login", {
                 method: "POST",
