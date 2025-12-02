@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { useProjectStore, type TaskItem } from '#imports'
+import { useProjectStore } from '#imports'
 import { shallowRef } from 'vue'
 
 // Donot call composables in a function it is used in the top level of the script 
 const callCount = ref(0)
 const projectStore = useProjectStore();
-const { tasks } = storeToRefs(projectStore)
+const { tasks, project } = storeToRefs(projectStore)
 
 
 const email = ref('email@gmail.com')
 const password = ref('')
 const drawer = ref(false)
 const group = ref(null)
-const selectedTask = ref<TaskItem>()
 
 
 const body = computed(() => ({
@@ -50,10 +49,8 @@ const tabs = [
     },
 ]
 
-const setDrawerOpener = (task:TaskItem) => {
-    // Should pass in the data of the task that has just been selected 
-    selectedTask.value = task;
-    drawer.value = true;
+const setDrawerOpener = () => {
+    drawer.value = true
 }
 
 watch(group, () => {
@@ -66,7 +63,7 @@ watch(group, () => {
     <VLayout fluid class="pl-10 d-flex flex-column text-start">
         <div class="w-100">
             <div class="text-h4">Tasks</div>
-            <div class="text-subtitle-1">Some text about the task will be placed here </div>
+            <div class="text-subtitle-1">Some text about the text will be placed here </div>
         </div>
         <v-tabs width="100%" v-model="tab" :items="tabs" align-tabs="start" height="60" class="mt-10 flex-grow-1"
             slider-color="#6f78c9">
@@ -81,19 +78,19 @@ watch(group, () => {
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Todo" :count="5" />
                             <template v-if="tasks.length > 0" v-for="(task, i) in tasks" :key="i" :value="item">
-                                <projects-task-card :task="task" @open-drawer="setDrawerOpener(task)" />
+                                <projects-task-card :task="task" @open-drawer="setDrawerOpener" />
                             </template>
                         </v-col>
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Triage" :count="10" />
                             <template v-for="(task, i) in tasks" :key="i" :value="item">
-                                <projects-task-card :task="task" @open-drawer="setDrawerOpener(task)" />
+                                <projects-task-card :task="task" @open-drawer="setDrawerOpener" />
                             </template>
                         </v-col>
                         <v-col class="d-flex flex-column justify-start space-y-2 bg-[#1867C0]/5 rounded-lg">
                             <projects-task-header title="Progress" :count="12" />
                             <template v-for="(task, i) in tasks" :key="i" :value="item">
-                                <projects-task-card :task="task" @open-drawer="setDrawerOpener(task)" />
+                                <projects-task-card :task="task" @open-drawer="setDrawerOpener" />
                             </template>
 
                         </v-col>
@@ -101,6 +98,6 @@ watch(group, () => {
                 </v-tabs-window-item>
             </template>
         </v-tabs>
-        <ProjectsTaskDetails v-model:is-dialog-visible="drawer" :task="selectedTask" />
+        <ProjectsTaskDetails v-model:is-dialog-visible="drawer" />
     </VLayout>
 </template>

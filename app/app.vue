@@ -2,8 +2,7 @@
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '#imports';
-const router = useRouter()
-const items = ref([{ icon: 'mdi-home-outline', text: 'Dashboard' }, { icon: 'mdi-mail', text: 'Projects' }, { icon: 'mdi-calendar-check-outline', text: 'Task' }, { icon: 'mdi-finance', text: 'Finance' },])
+const items = ref([{ icon: 'mdi-home-outline', text: 'Dashboard', route:'dashboard' }, { icon: 'mdi-mail', text: 'Projects', route:'projects' }, { icon: 'mdi-calendar-check-outline', text: 'Task', route:'tasks' }, { icon: 'mdi-finance', text: 'Finance', route:'finance'}])
 const items1 = ref([{ icon: 'mdi-file-outline', text: 'Documents' }, { icon: 'mdi-mail', text: 'Mettings' }])
 
 
@@ -11,17 +10,17 @@ const route = useRoute();
 const authStore = useAuthStore()
 const projectSore = useProjectStore()
 const { user, getUserToken } = storeToRefs(authStore)
-const currentPathname = computed(() =>{
+const currentPathname = computed(() => {
   route.path;
 })
 
-const isAuthLayout = computed(() =>{
+const isAuthLayout = computed(() => {
   return route.path === '/auth/register' || route.path === '/auth/login'
 })
 
-watch(getUserToken, (token) =>{
+watch(getUserToken, (token) => {
 
-  if(token != '') {
+  if (token != '') {
     projectSore.fetchProjects()
     projectSore.fetTasks()
   }
@@ -49,11 +48,13 @@ watch(getUserToken, (token) =>{
       <v-divider></v-divider>
 
       <v-list v-for="(item, i) in items" :key="i" :value="item" density="compact" nav>
-        <v-list-item :title="item.text" :value="item.icon">
-          <template v-slot:prepend>
-            <v-icon color="black" :icon="item?.icon"></v-icon>
-          </template>
-        </v-list-item>
+        <NuxtLink :to=item.route>
+          <v-list-item :title="item.text" :value="item.icon">
+            <template v-slot:prepend>
+              <v-icon color="black" :icon="item?.icon"></v-icon>
+            </template>
+          </v-list-item>
+        </NuxtLink>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
@@ -80,13 +81,19 @@ watch(getUserToken, (token) =>{
 
 <style scoped>
 /* Target the top-level drawer element */
-    .hero-section {
-        background-image: url('/background.jpg'); /* Relative path to your image */
-        height: 400px; /* Example height for visibility */
-        background-size: cover; /* Ensures the image covers the entire element */
-        background-position: center; /* Centers the image within the element */
-        background-repeat: no-repeat; /* Prevents the image from repeating */
-        color: white; /* Example text color for readability */
-        padding: 20px;
-    }
+.hero-section {
+  background-image: url('/background.jpg');
+  /* Relative path to your image */
+  height: 400px;
+  /* Example height for visibility */
+  background-size: cover;
+  /* Ensures the image covers the entire element */
+  background-position: center;
+  /* Centers the image within the element */
+  background-repeat: no-repeat;
+  /* Prevents the image from repeating */
+  color: white;
+  /* Example text color for readability */
+  padding: 20px;
+}
 </style>
