@@ -3,7 +3,7 @@ import type { Document, Comment } from './../utils/types'
 
 interface State {
     document: Document,
-    comments: Comment,
+    comments: Comment[],
     message: string,
     loader: boolean
 }
@@ -19,27 +19,22 @@ export const useSharedStore = defineStore('shared', {
             document_file: null
         },
         message: '',
-        comments: {
-            tenant_id: 0,
-            body: '',
-            commentable_id: 0,
-            commentable_type: '',
-            user_id: 0
-        },
+        comments: [],
         loader: false
 
     }),
     actions: {
         async uploadDocument(formData: FormData) {
+            this.loader = true
             const { data, status } = await useApiFetch('/api/documents/upload', {
                 method: 'POST',
                 body: formData
             });
-            console.log(data);
-
             if (data) {
                 this.message = data.value.message;
             }
+            this.loader = false
+
         },
 
         async saveComment(comment: Comment) {
@@ -50,9 +45,7 @@ export const useSharedStore = defineStore('shared', {
             })
 
             if (data) {
-
                 this.message = data.value.message
-                console.log("Comment Saved \n", this.message);
             }
 
             this.loader = false
@@ -61,7 +54,6 @@ export const useSharedStore = defineStore('shared', {
         async getComments() {
             this.loader = true
             const { data } = await useApiFetch('/api/comments');
-
             if (data) {
                 this.comments = data.value
             }

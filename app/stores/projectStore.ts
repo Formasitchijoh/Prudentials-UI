@@ -3,7 +3,8 @@ import type { Project, TaskItem } from './../utils/types'
 
 interface State {
     project: Project
-    tasks: TaskItem[]
+    tasks: TaskItem[],
+    message:string
 }
 
 export const useProjectStore = defineStore('project', {
@@ -23,14 +24,14 @@ export const useProjectStore = defineStore('project', {
             spent_amount: "",
             meta: undefined
         },
-        tasks:[]
+        tasks:[],
+        message : ''
     }),
 
     actions: {
         async fetchProjects() {
             const { data, status } = await useApiFetch('/api/projects')
             if (data) {
-                console.log("Projects \n", data.value);
                 this.project = data.value
             }
         },
@@ -38,9 +39,21 @@ export const useProjectStore = defineStore('project', {
         async fetTasks() {
             const { data, status } = await useApiFetch('/api/tasks')
             if (data) {
-                console.log("Tasks \n", data.value);
                 this.tasks = data.value as TaskItem[]
             }
+        },
+
+        async addTask(task:Partial<TaskItem>) {
+
+            const { data, status } = await useApiFetch('/api/tasks', {
+                method: "POST",
+                body: task
+            })
+
+            if(data) {
+                this.message = data.value.message // displayed the successfull message
+            }
+
         }
     }
 })

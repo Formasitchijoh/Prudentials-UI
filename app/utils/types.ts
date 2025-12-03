@@ -52,3 +52,17 @@ export type Comment = {
     commentable_type: String,
     user_id:number | null
 }
+export type Task = {
+    tenant_id: number,
+    project_id: number,
+    milestone_id: number | null,
+    title: string,
+    description: Text,
+    type: string,
+    assignee_id: number,
+    reporter_id: number,
+    status: string,
+    priority:string,
+    estimated_hours: number | null,
+    actual_hours: number | null
+}

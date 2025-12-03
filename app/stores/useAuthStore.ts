@@ -43,18 +43,14 @@ export const useAuthStore = defineStore('auth', {
 
 
         async fetchUser() {
-            if (this.user.token) return;
-            console.log("Fetching 11");
-            
+            if (this.user.token) return;            
             const accessToken = useCookie('access_token');
             if (!accessToken.value) return;
-            console.log("Fetching 22");
 
             try {
                 const { data } = await useApiFetch("/api/auth_user");
 
                 if (data.value) {
-                    console.log("Fetched \n", data.value);
                     this.user = data.value;
                 }
             } catch (error) {
@@ -71,9 +67,6 @@ export const useAuthStore = defineStore('auth', {
                 method: "POST",
                 body: info
             })
-
-            console.log('Request Status:', status.value);
-            console.log('Register Data:', info, data.value);
 
             if (status.value == 'success') {
                 this.message = "";
@@ -93,9 +86,6 @@ export const useAuthStore = defineStore('auth', {
                 body: info
             })
 
-            console.log('Request Login Status:', status.value);
-            console.log('Register Login Data:', info, data.value);
-
             if (status.value == 'success') {
                 this.user = data.value.user; 
 
@@ -103,8 +93,6 @@ export const useAuthStore = defineStore('auth', {
                 const accessTokenCookie = useCookie('access_token');
 
                 accessTokenCookie.value = data.value.token;
-
-                console.log("Token Saved \n", accessTokenCookie.value);
 
                 this.message = "";
                 const router = useRouter();
